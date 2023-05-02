@@ -19,8 +19,7 @@ apply plugin: 'java'
 apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
 apply plugin: "com.jfrog.artifactory"
-// We don't use publish tasks...
-// apply from: 'gradle/publishing.gradle'
+apply from: 'gradle/publishing.gradle'
 
 tasks.withType(JavaCompile) {
     sourceCompatibility = "1.8"
