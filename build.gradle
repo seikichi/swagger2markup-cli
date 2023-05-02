@@ -19,7 +19,8 @@ apply plugin: 'java'
 apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
 apply plugin: "com.jfrog.artifactory"
-apply from: 'gradle/publishing.gradle'
+// We don't use publish tasks...
+// apply from: 'gradle/publishing.gradle'
 
 tasks.withType(JavaCompile) {
     sourceCompatibility = "1.8"
@@ -59,11 +60,13 @@ artifacts {
     archives javadocJar
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '5.6.3'
+wrapper {
+    gradleVersion = '5.6.4'
 }
 
-task runJar(dependsOn:jar) << {
+jar {
+  doLast {
     String swaggerInput = file("src/test/resources/swagger_petstore.yaml").getAbsolutePath()
     javaexec { main="-jar"; args = [jar.archivePath, 'convert', '-i', "${swaggerInput}", '-d', "${buildDir}"]}
+  }
 }
